@@ -9,18 +9,17 @@
 # чисел от 1 до n. Например, факториал
 # четырёх 4! = 1 * 2 * 3 * 4 = 24.
 
-from itertools import count
-from math import factorial
+def fact(number: int):
+    temp_result = 1
 
-def fibo_gen():
-    for el in count(1):
-        yield factorial(el)
+    if number <= 0:
+        yield temp_result
 
-gen = fibo_gen()
-x = 0
-for i in gen:
-    if x < 15:
-        print(i)
-        x += 1
-    else:
-        break
+    for x in range(1, number + 1):
+        temp_result *= x
+        yield temp_result
+
+N = 6
+
+for el in fact(N):
+    print(el)
