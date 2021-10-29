@@ -4,9 +4,8 @@
 
 from functools import reduce
 
+numbers = [item for item in range(100, 1000 + 1) if item % 2 == 0]
 
-def my_func(el_p, el):
-    return el_p * el
+multi = reduce(lambda x, y: x * y, numbers, 1)
 
-print(f'Список четных значений {[el for el in range(99, 1001) if el % 2 == 0]}')
-print(f'Результат перемножения всех элементов списка {reduce(my_func, [el for el in range(99, 1001) if el % 2 == 0])}')
+print(multi)
