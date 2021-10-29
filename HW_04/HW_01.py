@@ -3,13 +3,8 @@
 # (выработка в часах*ставка в час) + премия.
 # Для выполнения расчета для конкретных значений необходимо запускать скрипт с параметрами.
 
-def sal():
-    try:
-        time = float(input('Выработка в часах: '))
-        salary = int(input('Ставка: '))
-        bonus = int(input('Премия: '))
-        res = time * salary + bonus
-        print(f'Заработная плата сотрудника -  {res}')
-    except ValueError:
-        return print('Not a number')
-sal()
+import sys
+-, work_hours, hour_cost, bonus = sys.argv
+
+salary = (float(hour_cost) * float(work_hours)) + float(bonus)
+print(f"Заработная плата = {salary}")
