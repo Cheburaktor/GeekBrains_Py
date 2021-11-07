@@ -6,3 +6,24 @@ Pencil (карандаш), Handle (маркер).
 Для каждого из классов метод должен выводить уникальное сообщение.
 Создать экземпляры классов и проверить, что выведет описанный метод для каждого экземпляра."""
 
+class Stationary:
+    title: str
+    _message: "Запуск отрисовки"
+
+    def draw(self):
+        print(self._message)
+
+class Pen(Stationary):
+    _message = "Рисуем ручкой"
+
+class Pencil(Stationary):
+    _message = "Рисуем карандашом"
+
+class Handle(Stationary):
+    _message = "Рисуем маркером"
+
+items = [Pen(), Pencil(), Handle()]
+
+for item in items:
+    item.draw()
+
