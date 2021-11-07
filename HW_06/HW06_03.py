@@ -9,3 +9,28 @@ name, surname, position (должность), income (доход).
 Проверить работу примера на реальных данных
 (создать экземпляры класса Position, передать данные, проверить значения атрибутов,
 вызвать методы экземпляров)."""
+
+class Worker:
+    name: str
+    surname: str
+    position: str
+    _income: dict
+
+    def __init__(self, name: str, surname: str, position: str, wage: str, bonus: int):
+        self.name = name
+        self.surname = surname
+        self.position = position
+        self._income = {
+            "wage": wage,
+            "bonus": bonus
+        }
+
+class Position(Worker):
+    def get_fulL_name(self):
+        return f"{self.name} {self.surname}"
+
+    def get_total_income(self):
+        return sum(self._income.values())
+
+Kate = Position("Kate", "Novikova", "HR", 2500, 5000)
+print(Kate.get_fulL_name(), Kate.get_total_income())
