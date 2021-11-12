@@ -10,45 +10,44 @@
 основных классов проекта, проверить на практике работу декоратора @property."""
 
 
-class Textil:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
+from abc import ABC, abstractmethod
 
-    def get_square_c(self):
-        return self.width / 6.5 + 0.5
+class Clothes(ABC):
+    name: str
 
-    def get_square_j(self):
-        return self.height * 2 + 0.3
+    def __init__(self, name: str):
+        self.name = name
 
     @property
-    def get_sq_full(self):
-        return str(f'Площадь общая ткани \n'
-                   f' {(self.width / 6.5 + 0.5) + (self.height * 2 + 0.3)}')
+    @abstractmethod
+    def calculate(self) -> float:
+        return self._size / 6.5 + 0.5
 
+    
+class Coat(Clothes):
+    _size: float
 
-class Coat(Textil):
-    def __init__(self, width, height):
-        super().__init__(width, height)
-        self.square_c = round(self.width / 6.5 + 0.5)
+    def __init__(self, name: str, size: float):
+        super().__init__(name)
+        self._size = size
 
-    def __str__(self):
-        return f'Площадь на пальто {self.square_c}'
+    @property
+    def calculate(self) -> float:
+        return self._size / 6.5 + 0.5
 
+class Suit(Clothes):
+    _height: float
 
-class Jacket(Textil):
-    def __init__(self, width, height):
-        super().__init__(width, height)
-        self.square_j = round(self.height * 2 + 0.3)
+    def __init__(self, name: str, height: float):
+        super().__init__(name)
+        self._height = height
 
-    def __str__(self):
-        return f'Площадь на костюм {self.square_j}'
+    @property
+    def calculate(self) -> float:
+        return 2 * self._height + 0.3
 
-coat = Coat(2, 4)
-jacket = Jacket(1, 2)
-print(coat)
-print(jacket)
-print(coat.get_sq_full)
-print(jacket.get_sq_full)
-print(jacket.get_square_c())
-print(jacket.get_square_j())
+coat = Coat('Пальто', 3)
+print(coat.calculate)
+
+suit = Suit('Костюм', 1.8)
+print(suit.calculate)
