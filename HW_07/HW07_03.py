@@ -7,50 +7,60 @@
 умножение и целочисленное (с округлением до целого) деление клеток, соответственно."""
 
 class Cell:
-    def __init__(self, quantity):
-        self.quantity = int(quantity)
-        #self.result = result
+    __count: int
+
+    def __init__(self, count: int):
+        assert count > 0, "Количество ячеек должно быть больше 0"
+        self.__count = count
+
+    def __add__(self, other: 'Cell'):
+        self.validate_item(other)
+        value = self.count + other.count
+        return Cell(value)
+
+    def __sub__(self, other: 'Cell'):
+        self.validate_item(other)
+        value = self.count - other.count
+        assert value > 0, "Разность ячеек меньше 0"
+        return Cell(value)
+
+    def __mul__(self, other:'Cell'):
+        self.validate_item(other)
+        value = self.count * other.count
+        return Cell(value)
+
+    def __truediv__(self, other: 'Cell'):
+        self.validate_item(other)
+        value = round(self.count / self.count)
+        return Cell(value)
 
     def __str__(self):
-        return f'Результат операции {self.quantity * "*"}'
+        return str(self.__count)
 
-    def __add__(self, other):
-        # self.result = Cell(self.quantity + other.quantity)
-        return Cell(self.quantity + other.quantity)
+    def validate_item(self, other):
+        assert isinstance(other, self.__class__), "Операции допустимы только между клетками"
 
-    def __sub__(self, other):
-        '''
-        Выдает ошибку о том, что результат не число  при вычислении
-        if int(Cell(self.quantity - other.quantity)) > 0:
-            return Cell(int(self.quantity - other.quantity))
-        else:
-            return f'Операция вычитания невозможна'""
-        '''
-        return self.quantity - other.quantity if (self.quantity - other.quantity) > 0 else print('Отрицательно!')
+    @property
+    def count(self) -> int:
+        return self.__count
 
-        # return Cell(int(self.quantity - other.quantity))
+    @staticmethod
+    def make_order(cell_object: 'Cell', count_per_row: int) -> str:
+        items = '*' * cell_object.count
+        chunks = [
+            items[idx:idx + count_per_row]
+            for idf in range(0, len(items), count_per_row)
+        ]
 
-    def __mul__(self, other):
-        #self.result = Cell(int(self.quantity * other.quantity))
-        return Cell(int(self.quantity * other.quantity))
+        return '\n'.join(chunks)
 
-    def __truediv__(self, other):
-        #self.result = Cell(round(self.quantity // other.quantity))
-        return Cell(round(self.quantity // other.quantity))
+first = Cell(3)
+second = Cell(2)
+huge = Cell(18)
 
+print(first + second)
+print(first - second)
+print(first * second)
+print(first / second)
 
-    def make_order(self, cells_in_row):
-        row = ''
-        for i in range(int(self.quantity / cells_in_row)):
-            row += f'{"*" * cells_in_row} \\n'
-        row += f'{"*" * (self.quantity % cells_in_row)}'
-        return row
-
-cells1 = Cell(33)
-cells2 = Cell(9)
-print(cells1)
-print(cells1 + cells2)
-print(cells2 - cells1)
-print(cells2.make_order(5))
-print(cells1.make_order(10))
-print(cells1 / cells2)
+print(Cell.make_order(huge, 5))
